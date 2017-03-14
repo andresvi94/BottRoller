@@ -1,0 +1,16 @@
+# Android
+
+# Gradle files
+.gradle
+gradle.properties
+build
+
+# Local configuration files (sdk path, etc.)
+/local.properties
+
+# IntelliJ
+*.iml
+.idea
+
+test
+androidTest

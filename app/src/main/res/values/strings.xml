@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BottRoller</string>
+    <string name="rx_buff">RX:</string>
+    <string name="rx_placeholder">&lt;RX Buffer&gt;</string>
+    <string name="status">Status:</string>
+    <string name="status_placeholder">&lt;Bluetooth Status&gt;</string>
+    <string name="title_activity_joy_stick">JoyStickActivity</string>
+</resources>
