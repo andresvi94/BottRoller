@@ -13,7 +13,6 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -28,7 +27,8 @@
         <activity
             android:name=".JoyStickActivity"
             android:label="@string/title_activity_joy_stick"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

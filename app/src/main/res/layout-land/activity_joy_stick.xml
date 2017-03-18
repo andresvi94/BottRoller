@@ -16,35 +16,35 @@
             android:layout_height="wrap_content"
             android:text="X"
             android:textColor="#444444"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Y"
             android:textColor="#444444"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Angle"
             android:textColor="#444444"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Distance"
             android:textColor="#444444"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Direction"
             android:textColor="#444444"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/layout_joystick"
