@@ -1,5 +1,6 @@
 package com.andresvi94.bottroller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class JoyStickActivity extends AppCompatActivity {
 
@@ -48,6 +50,11 @@ public class JoyStickActivity extends AppCompatActivity {
                     textView4.setText("Distance : " + String.valueOf(js.getDistance()));
 
                     int direction = js.get8Direction();
+                    //New Code
+                    Intent goingBack = new Intent();
+                    goingBack.putExtra("Test", Integer.toString(direction));
+                    setResult(RESULT_OK, goingBack);
+                    //End
                     if (direction == JoyStick.STICK_UP) {
                         textView5.setText("Direction : Up");
                     } else if (direction == JoyStick.STICK_UPRIGHT) {
@@ -77,5 +84,11 @@ public class JoyStickActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        //Toast.makeText(getBaseContext(),"destroy",Toast.LENGTH_SHORT).show();
+        super.onDestroy();
     }
 }
