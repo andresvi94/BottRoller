@@ -82,48 +82,20 @@
                 android:text="&lt;Bluetooth Status>" />
         </LinearLayout>
 
-        <ToggleButton
-            android:id="@+id/scan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/off"
-            android:textOff="Bluetooth OFF"
-            android:textOn="Bluetooth ON"
-            android:layout_toLeftOf="@+id/off" />
-
         <Button
             android:id="@+id/PairedBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/scan"
             android:layout_toStartOf="@+id/discover"
-            android:text="Show paired Devices"
+            android:text="@string/start"
             android:layout_toLeftOf="@+id/discover" />
-
-        <Button
-            android:id="@+id/discover"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/off"
-            android:layout_toEndOf="@+id/checkboxLED1"
-            android:layout_toRightOf="@+id/checkboxLED1"
-            android:text="Discover New Devices" />
 
         <EditText
             android:id="@+id/cmd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="command" />
-
-        <ListView
-            android:id="@+id/devicesListView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/off"
-            android:layout_alignRight="@+id/off"
-            android:layout_below="@+id/PairedBtn"
-            android:choiceMode="singleChoice" />
 
     </LinearLayout>
 
