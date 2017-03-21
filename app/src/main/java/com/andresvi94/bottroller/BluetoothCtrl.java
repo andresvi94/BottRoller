@@ -12,12 +12,15 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,10 +30,11 @@ public class BluetoothCtrl{
     private Activity activity;
 
     private Set<BluetoothDevice> pairedDevices;
-    private ArrayAdapter<String> btArrayAdapter;
-    private BluetoothAdapter btAdapter;
+    public ArrayAdapter<String> btArrayAdapter;
+    private ListView devicesListView;
+    public BluetoothAdapter btAdapter;
     private Handler handler;
-    private ConnectedThread connectedThread; // bluetooth background worker thread to send and receive data
+    public ConnectedThread connectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
 
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
@@ -46,6 +50,7 @@ public class BluetoothCtrl{
         activity = act;
         mainContext = context;
         btAdapter = BluetoothAdapter.getDefaultAdapter();
+        btArrayAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1);
 
         if (btAdapter == null) {
             // Device does not support Bluetooth
@@ -56,11 +61,28 @@ public class BluetoothCtrl{
         handler = new Handler(){
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1)
+                    if (msg.arg1 == 1) {
                         Toast.makeText(mainContext, "Connected", Toast.LENGTH_SHORT).show();
+                        //joystickStart();
+                    }
+                    joystickStart();
+                    /*else{
+                        Toast.makeText(mainContext, "Failed to Connect", Toast.LENGTH_SHORT).show();
+                    }*/
                 }
             }
         };
+    }
+
+    private void joystickStart()
+    {
+        Intent getJoyStickIntent = new Intent(activity, JoyStickActivity.class);
+        final int result = 1; // result from 2nd activity
+        //getJoyStickIntent.putExtra("callingActivity","MainActivity");
+        //mainContext.startActivityForResult(getJoyStickIntent, result);
+
+        //mainContext.startActivity(getJoyStickIntent); //works
+        activity.startActivityForResult(getJoyStickIntent, result);
     }
 
     final BroadcastReceiver blReceiver = new BroadcastReceiver() {
@@ -80,9 +102,7 @@ public class BluetoothCtrl{
         if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            Toast.makeText(mainContext,"Bluetooth turned on",Toast.LENGTH_SHORT).show();
         }
-        //check Request_enable_bt in onActivityResult to avoid using app without btEnabled
     }
 
     public void off(){
@@ -94,7 +114,6 @@ public class BluetoothCtrl{
         }
     }
 
-    //public void listPairedDevices(View view)
     public void listPairedDevices(){
         pairedDevices = btAdapter.getBondedDevices();
         // put it's one to the adapter
@@ -102,12 +121,14 @@ public class BluetoothCtrl{
             btArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 
         Toast.makeText(mainContext, "Show Paired Devices", Toast.LENGTH_SHORT).show();
+        //return btArrayAdapter;
     }
 
     public AdapterView.OnItemClickListener deviceClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             connect(view);
+            Toast.makeText(mainContext,"Connecting...",Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -139,7 +160,7 @@ public class BluetoothCtrl{
                     try {
                         fail = true;
                         mBTSocket.close();
-                        connectedThread.cancel();
+                        //connectedThread.cancel();
                         handler.obtainMessage(CONNECTING_STATUS, -1, -1)
                                 .sendToTarget();
                     } catch (IOException e2) {
