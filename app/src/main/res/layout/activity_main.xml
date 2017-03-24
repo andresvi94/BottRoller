@@ -12,84 +12,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/fab_margin"
+        android:paddingBottom="@dimen/fab_margin">
 
-        <CheckBox
-            android:id="@+id/checkboxLED1"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/bluetoothStatus"
-            android:layout_alignStart="@+id/bluetoothStatus"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:checked="false"
-            android:scaleX="1.7"
-            android:scaleY="1.7"
-            android:text="Toggle LED"
-            android:textStyle="bold" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:text="@string/welcomeTitle"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:paddingBottom="@dimen/fab_margin"/>
+        <TextView
+            android:id="@+id/descTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="RX:"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/readBuffer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="0.9"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="&lt;Read Buffer>" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Status:"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/bluetoothStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_alignTop="@+id/checkboxLED1"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="0.9"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="&lt;Bluetooth Status>" />
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:text="@string/appDesc"
+            android:textSize="15sp"
+            android:paddingBottom="50dp"/>
 
         <Button
             android:id="@+id/PairedBtn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/scan"
-            android:layout_toStartOf="@+id/discover"
+            android:layout_below="@+id/descTextView"
+            android:layout_toStartOf="@+id/descTextView"
+            android:layout_toLeftOf="@+id/descTextView"
+            android:layout_gravity="center"
             android:text="@string/start"
-            android:layout_toLeftOf="@+id/discover" />
+            android:padding="@dimen/button_padding"/>
 
         <EditText
             android:id="@+id/cmd"

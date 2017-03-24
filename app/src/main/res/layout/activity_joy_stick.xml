@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="X"
+            android:text="@string/x"
             android:textColor="#444444"
             android:textSize="20sp" />
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView1"
-            android:text="Y"
+            android:text="@string/y"
             android:textColor="#444444"
             android:textSize="20sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView2"
-            android:text="Angle"
+            android:text="@string/angle"
             android:textColor="#444444"
             android:textSize="20sp" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView3"
-            android:text="Distance"
+            android:text="@string/distance"
             android:textColor="#444444"
             android:textSize="20sp" />
 
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/textView3"
-            android:text="Direction"
+            android:text="@string/direction"
             android:textColor="#444444"
             android:textSize="20sp" />
     </LinearLayout>
@@ -77,4 +77,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp"
         android:background="@drawable/image_button_bg" />
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="30dp">
+        <Button
+            android:id="@+id/stopBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"/>
+    </LinearLayout>-->
 </RelativeLayout>
