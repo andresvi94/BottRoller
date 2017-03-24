@@ -27,8 +27,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,11 +48,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     // GUI Components
-    @BindView(R.id.bluetoothStatus) TextView bluetoothStatus;
-    @BindView(R.id.readBuffer) TextView readBuffer;
     @BindView(R.id.cmd) EditText textCmd;
     @BindView(R.id.PairedBtn) Button listPairedDevicesBtn;
-    @BindView(R.id.checkboxLED1) CheckBox checkBoxLED;
 
     private String dataSentBack; // TEST FOR DIRECTION FROM JOYSTICK
     private BluetoothAdapter mBTAdapter;
@@ -84,7 +79,21 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        btCtrl = new BluetoothCtrl(this, getApplicationContext());
+        mHandler = new Handler(){
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == CONNECTING_STATUS) {
+                    if (msg.arg1 == 1) {
+                        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+                        //joystickStart();
+                    }
+                    joystickStart();
+                    /*else{
+                        Toast.makeText(mainContext, "Failed to Connect", Toast.LENGTH_SHORT).show();
+                    }*/
+                }
+            }
+        };
+        btCtrl = new BluetoothCtrl(this, getApplicationContext(), mHandler);
         btCtrl.on();
     }
 
@@ -94,36 +103,47 @@ public class MainActivity extends AppCompatActivity {
         setUp();
     }
 
+    private void joystickStart()
+    {
+        Intent getJoyStickIntent = new Intent(this, JoyStickActivity.class);
+        final int result = 42; // result from 2nd activity
+        //getJoyStickIntent.putExtra("callingActivity","MainActivity");
+        //mainContext.startActivityForResult(getJoyStickIntent, result);
+        getJoyStickIntent.putExtra("test",btCtrl);
+        //mainContext.startActivity(getJoyStickIntent); //works
+        startActivityForResult(getJoyStickIntent, result);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent Data){
-        // Check which request we're responding to
-        if (requestCode == REQUEST_ENABLE_BT) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-                Toast.makeText(getBaseContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                //int pid = android.os.Process.myPid();
-                //android.os.Process.killProcess(pid);
-                Toast.makeText(getBaseContext(), "Bluetooth not turned on", Toast.LENGTH_SHORT).show();
-            }
+        switch (requestCode){
+            case REQUEST_ENABLE_BT:
+                checkBluetoothStatus(resultCode);
+                break;
+            case 42:
+                dataSentBack = Data.getStringExtra("Test");
+                //btCtrl.testString = dataSentBack;
+                textCmd.setText(dataSentBack);
+                break;
         }
+    }
 
-        dataSentBack = Data.getStringExtra("Test");
-        textCmd.setText(dataSentBack);
-        //Write to connectedThread
+    private void checkBluetoothStatus(int resultCode){
+        // Make sure the request was successful
+        if (resultCode == RESULT_OK) {
+            // The user picked a contact.
+            // The Intent's data Uri identifies which contact was selected.
+            Toast.makeText(getBaseContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            //int pid = android.os.Process.myPid();
+            //android.os.Process.killProcess(pid);
+            Toast.makeText(getBaseContext(), "Bluetooth not turned on", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUp()
     {
-        checkBoxLED.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         listPairedDevicesBtn.setOnClickListener(new View.OnClickListener()
         {

@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class BluetoothCtrl{
+public class BluetoothCtrl implements Parcelable {
 
     private Context mainContext;
     private Activity activity;
@@ -45,10 +47,11 @@ public class BluetoothCtrl{
     private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
 
     //public BluetoothCtrl(Context context, ViewGroup layout, int stick_res_id)
-    public BluetoothCtrl(Activity act, Context context)
+    public BluetoothCtrl(Activity act, Context context, Handler mHandler)
     {
         activity = act;
         mainContext = context;
+        handler = mHandler;
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         btArrayAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1);
 
@@ -58,26 +61,64 @@ public class BluetoothCtrl{
             //end activity/close app?
         }
 
-        handler = new Handler(){
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1) {
-                        Toast.makeText(mainContext, "Connected", Toast.LENGTH_SHORT).show();
-                        //joystickStart();
-                    }
-                    joystickStart();
-                    /*else{
-                        Toast.makeText(mainContext, "Failed to Connect", Toast.LENGTH_SHORT).show();
-                    }*/
-                }
-            }
-        };
+//        handler = new Handler(){
+//            public void handleMessage(android.os.Message msg) {
+//                if (msg.what == CONNECTING_STATUS) {
+//                    if (msg.arg1 == 1) {
+//                        Toast.makeText(mainContext, "Connected", Toast.LENGTH_SHORT).show();
+//                        connectedThread = new ConnectedThread(mBTSocket);
+//                        connectedThread.start();
+//                        //joystickStart();
+//                    }
+//                    joystickStart();
+//                    /*else{
+//                        Toast.makeText(mainContext, "Failed to Connect", Toast.LENGTH_SHORT).show();
+//                    }*/
+//                }
+//            }
+//        };
     }
+
+    public BluetoothCtrl(Parcel in)
+    {
+        //BluetoothAdapter adapter = btAdapter;
+        //BluetoothSocket socket = mBTSocket;
+        ConnectedThread thread = connectedThread;
+    }
+
+    // 99.9% of the time you can just ignore this
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeValue(connectedThread);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<BluetoothCtrl> CREATOR = new Parcelable.Creator<BluetoothCtrl>() {
+        public BluetoothCtrl createFromParcel(Parcel in) {
+            return new BluetoothCtrl(in);
+        }
+
+        public BluetoothCtrl[] newArray(int size) {
+            return new BluetoothCtrl[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    /*private MyParcelable(Parcel in) {
+        mData = in.readInt();
+    }*/
+
 
     private void joystickStart()
     {
         Intent getJoyStickIntent = new Intent(activity, JoyStickActivity.class);
-        final int result = 1; // result from 2nd activity
+        final int result = 42; // result from 2nd activity
         //getJoyStickIntent.putExtra("callingActivity","MainActivity");
         //mainContext.startActivityForResult(getJoyStickIntent, result);
 
@@ -185,7 +226,7 @@ public class BluetoothCtrl{
         //creates secure outgoing connection with BT device using UUID
     }
 
-    private class ConnectedThread extends Thread {
+    public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
