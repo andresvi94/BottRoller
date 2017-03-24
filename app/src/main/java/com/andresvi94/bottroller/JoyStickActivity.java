@@ -5,16 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import butterknife.BindView;
 
 public class JoyStickActivity extends AppCompatActivity {
 
     RelativeLayout layout_joystick;
     ImageView image_joystick, image_border;
     TextView textView1, textView2, textView3, textView4, textView5;
+//    @BindView(R.id.stopBtn) Button stoBtn;
 
     JoyStick js;
 
@@ -45,45 +49,56 @@ public class JoyStickActivity extends AppCompatActivity {
                 if (arg1.getAction() == MotionEvent.ACTION_DOWN
                         || arg1.getAction() == MotionEvent.ACTION_MOVE) {
                     textView1.setText("X : " + String.valueOf(js.getX()));
+                    //textView1.setText(getResources().getString(R.string.x,js.getX()));
                     textView2.setText("Y : " + String.valueOf(js.getY()));
                     textView3.setText("Angle : " + String.valueOf(js.getAngle()));
                     textView4.setText("Distance : " + String.valueOf(js.getDistance()));
 
                     int direction = js.get8Direction();
                     //New Code
+                    Intent intent = getIntent();
+                    BluetoothCtrl ctrlTest = intent.getParcelableExtra("test");
+                    //ctrlTest.connectedThread.write(Integer.toString(direction));
                     Intent goingBack = new Intent();
                     goingBack.putExtra("Test", Integer.toString(direction));
                     setResult(RESULT_OK, goingBack);
                     //End
                     if (direction == JoyStick.STICK_UP) {
-                        textView5.setText("Direction : Up");
+                        textView5.setText(R.string.up);
                     } else if (direction == JoyStick.STICK_UPRIGHT) {
-                        textView5.setText("Direction : Up Right");
+                        textView5.setText(R.string.upRight);
                     } else if (direction == JoyStick.STICK_RIGHT) {
-                        textView5.setText("Direction : Right");
+                        textView5.setText(R.string.right);
                     } else if (direction == JoyStick.STICK_DOWNRIGHT) {
-                        textView5.setText("Direction : Down Right");
+                        textView5.setText(R.string.downRight);
                     } else if (direction == JoyStick.STICK_DOWN) {
-                        textView5.setText("Direction : Down");
+                        textView5.setText(R.string.down);
                     } else if (direction == JoyStick.STICK_DOWNLEFT) {
-                        textView5.setText("Direction : Down Left");
+                        textView5.setText(R.string.downLeft);
                     } else if (direction == JoyStick.STICK_LEFT) {
-                        textView5.setText("Direction : Left");
+                        textView5.setText(R.string.left);
                     } else if (direction == JoyStick.STICK_UPLEFT) {
-                        textView5.setText("Direction : Up Left");
+                        textView5.setText(R.string.upLeft);
                     } else if (direction == JoyStick.STICK_NONE) {
-                        textView5.setText("Direction : Center");
+                        textView5.setText(R.string.Center);
                     }
                 } else if (arg1.getAction() == MotionEvent.ACTION_UP) {
-                    textView1.setText("X :");
-                    textView2.setText("Y :");
-                    textView3.setText("Angle :");
-                    textView4.setText("Distance :");
-                    textView5.setText("Direction :");
+                    textView1.setText(R.string.x);
+                    textView2.setText(R.string.y);
+                    textView3.setText(R.string.angle);
+                    textView4.setText(R.string.distance);
+                    textView5.setText(R.string.direction);
                 }
                 return true;
             }
         });
+
+        /*stoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
     }
 
     @Override
