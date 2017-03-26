@@ -65,6 +65,10 @@ public class BluetoothSelector extends BaseBluetoothController {
         showToast("Showing paired devices");
     }
 
+    public boolean isBtAdapterOn() {
+        return btAdapter.isEnabled();
+    }
+
     public final BroadcastReceiver getBroadcastReceiver() {
         return broadcastReceiver;
     }

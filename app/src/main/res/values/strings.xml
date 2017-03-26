@@ -1,24 +1,26 @@
 <resources>
-    <string name="appName">BottRoller</string>
-    <string name="appDesc">
-        BottRoller will let you control you balancing robot through your smartphone with ease!\n\nFirst press the start button to select your device. Then use the joystick to move your robot!\n
+    <string name="app_name">BottRoller</string>
+    <string name="app_description">
+        BottRoller will let you control you balancing robot through your
+        smartphone with ease!\n\nFirst press the start button to select your device.
+        Then use the joystick to move your robot!\n
     </string>
-    <string name="dialogTitle">Pick Device</string>
-    <string name="discoverDevices">Discover New Devices</string>
-    <string name="joystickName">JoyStick</string>
-    <string name="showDevices">Show Paired Devices</string>
+    <string name="dialog_title">Pick Device</string>
+    <string name="discover_new_devices">Discover New Devices</string>
+    <string name="joystick">JoyStick</string>
+    <string name="show_paired_devices">Show Paired Devices</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
-    <string name="welcomeTitle">Welcome!</string>
+    <string name="welcome_title">Welcome!</string>
     <string name="up">Direction : Up</string>
-    <string name="upRight">Direction : Up Right</string>
+    <string name="up_right">Direction : Up Right</string>
     <string name="right">Direction : Right</string>
-    <string name="downRight">Direction : Down Right</string>
+    <string name="down_right">Direction : Down Right</string>
     <string name="down">Direction : Down</string>
-    <string name="downLeft">Direction : Down Left</string>
+    <string name="down_left">Direction : Down Left</string>
     <string name="left">Direction : Left</string>
-    <string name="upLeft">Direction : Up Left</string>
-    <string name="Center">Direction : Center</string>
+    <string name="up_left">Direction : Up Left</string>
+    <string name="center">Direction : Center</string>
     <string name="angle">Angle :</string>
     <string name="distance">Distance :</string>
     <string name="direction">Direction :</string>

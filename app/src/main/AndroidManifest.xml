@@ -14,7 +14,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/appName"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -26,7 +26,7 @@
         </activity>
         <activity
             android:name=".JoyStickActivity"
-            android:label="@string/joystickName"
+            android:label="@string/joystick"
             android:theme="@style/AppTheme"/>
             <!--android:parentActivityName=".MainActivity"/>-->
     </application>

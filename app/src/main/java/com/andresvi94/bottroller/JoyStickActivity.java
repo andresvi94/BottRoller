@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.andresvi94.bottroller.bluetooth.BluetoothSelector;
-
 public class JoyStickActivity extends AppCompatActivity {
 
     RelativeLayout layout_joystick;
@@ -67,21 +65,21 @@ public class JoyStickActivity extends AppCompatActivity {
                     if (direction == JoyStick.STICK_UP) {
                         textView5.setText(R.string.up);
                     } else if (direction == JoyStick.STICK_UPRIGHT) {
-                        textView5.setText(R.string.upRight);
+                        textView5.setText(R.string.up_right);
                     } else if (direction == JoyStick.STICK_RIGHT) {
                         textView5.setText(R.string.right);
                     } else if (direction == JoyStick.STICK_DOWNRIGHT) {
-                        textView5.setText(R.string.downRight);
+                        textView5.setText(R.string.down_right);
                     } else if (direction == JoyStick.STICK_DOWN) {
                         textView5.setText(R.string.down);
                     } else if (direction == JoyStick.STICK_DOWNLEFT) {
-                        textView5.setText(R.string.downLeft);
+                        textView5.setText(R.string.down_left);
                     } else if (direction == JoyStick.STICK_LEFT) {
                         textView5.setText(R.string.left);
                     } else if (direction == JoyStick.STICK_UPLEFT) {
-                        textView5.setText(R.string.upLeft);
+                        textView5.setText(R.string.up_left);
                     } else if (direction == JoyStick.STICK_NONE) {
-                        textView5.setText(R.string.Center);
+                        textView5.setText(R.string.center);
                     }
                 } else if (arg1.getAction() == MotionEvent.ACTION_UP) {
                     textView1.setText(R.string.x);
