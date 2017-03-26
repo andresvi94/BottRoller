@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import butterknife.BindView;
+import com.andresvi94.bottroller.bluetooth.BluetoothSelector;
 
 public class JoyStickActivity extends AppCompatActivity {
 
@@ -43,6 +41,9 @@ public class JoyStickActivity extends AppCompatActivity {
         js.setOffset(90);
         js.setMinimumDistance(50);
 
+//        Intent intent = getIntent();
+//        BluetoothSelector ctrlTest = intent.getParcelableExtra("test");
+
         layout_joystick.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View arg0, MotionEvent arg1) {
                 js.drawStick(arg1);
@@ -57,7 +58,7 @@ public class JoyStickActivity extends AppCompatActivity {
                     int direction = js.get8Direction();
                     //New Code
                     Intent intent = getIntent();
-                    BluetoothCtrl ctrlTest = intent.getParcelableExtra("test");
+//                    BluetoothSelector ctrlTest = intent.getParcelableExtra("test");
                     //ctrlTest.connectedThread.write(Integer.toString(direction));
                     Intent goingBack = new Intent();
                     goingBack.putExtra("Test", Integer.toString(direction));
