@@ -1,6 +1,7 @@
 package com.andresvi94.bottroller;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
@@ -17,8 +18,9 @@ public class JoyStickActivity extends AppCompatActivity {
     @BindView(R.id.layout_joystick) RelativeLayout layout_joystick;
     TextView textView1, textView2, textView3, textView4, textView5;
     JoyStick joyStick;
-    private int direction;
+    //private int direction;
     private BluetoothCommunicator bluetoothCommunicator;
+    private BluetoothCommunicator.ConnectedThread thread;
 
     @OnTouch(R.id.layout_joystick)
     public boolean onJoystickTouch(MotionEvent motionEvent) {
@@ -30,7 +32,8 @@ public class JoyStickActivity extends AppCompatActivity {
             textView3.setText("Angle : " + String.valueOf(joyStick.getAngle()));
             textView4.setText("Distance : " + String.valueOf(joyStick.getDistance()));
 
-            direction = joyStick.get8Direction();
+            int direction = joyStick.get8Direction();
+            thread.write(String.valueOf(direction));
 
             if (direction == JoyStick.STICK_UP) {
                 textView5.setText(R.string.up);
@@ -83,8 +86,8 @@ public class JoyStickActivity extends AppCompatActivity {
         bluetoothCommunicator = new BluetoothCommunicator(this, getApplicationContext(), null);
         bluetoothCommunicator.turnOn();
         bluetoothCommunicator.connect(getIntent().getStringExtra("MAC_ADDRESS"));
-        //ConnectedThread thread = bluetoothCommunicator.getConnectedThread();
-        //thread.write(direction);
+        SystemClock.sleep(1000);
+        thread = bluetoothCommunicator.getConnectedThread();
     }
 
     @Override

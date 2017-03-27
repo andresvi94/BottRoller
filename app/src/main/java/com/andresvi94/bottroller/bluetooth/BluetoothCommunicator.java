@@ -35,7 +35,7 @@ public class BluetoothCommunicator extends BaseBluetoothController {
             connectedThread.cancel();
     }
 
-    private class ConnectedThread extends Thread {
+    public class ConnectedThread extends Thread {
         private final BluetoothSocket bluetoothSocket;
         private final InputStream inputStream;
         private final OutputStream outputStream;
