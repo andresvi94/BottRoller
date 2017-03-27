@@ -14,31 +14,36 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.Set;
 
-public class BluetoothSelector extends BaseBluetoothController {
-
+public class BluetoothSelector extends BaseBluetoothController
+{
     private static final int MAC_ADDRESS_LENGTH = 17;
 
+    private final BroadcastReceiver broadcastReceiver;
     public ArrayAdapter<String> btArrayAdapter;
     public AdapterView.OnItemClickListener deviceClickListener;
-    private final BroadcastReceiver broadcastReceiver;
     private String deviceMacAddress = "";
 
-    public BluetoothSelector(Activity activity, final Context context, Handler handler) {
+    public BluetoothSelector(Activity activity, final Context context, Handler handler)
+    {
         super(activity, context, handler);
 
         btArrayAdapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1);
 
-        if (btAdapter == null) {
-            // Device does not support Bluetooth
+        // If the device does not support Bluetooth, close the app
+        if (btAdapter == null)
+        {
             showToast("Your device does not support Bluetooth! Closing the app");
             activity.finish();
         }
 
-        broadcastReceiver = new BroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver()
+        {
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(Context context, Intent intent)
+            {
                 String action = intent.getAction();
-                if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                if (BluetoothDevice.ACTION_FOUND.equals(action))
+                {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     btArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                     btArrayAdapter.notifyDataSetChanged();
@@ -46,10 +51,12 @@ public class BluetoothSelector extends BaseBluetoothController {
             }
         };
 
-        deviceClickListener = new AdapterView.OnItemClickListener() {
+        deviceClickListener = new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String deviceInfo = ((TextView) view).getText().toString();
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                String deviceInfo = ((TextView)view).getText().toString();
                 deviceMacAddress = deviceInfo.substring(deviceInfo.length() - MAC_ADDRESS_LENGTH);
                 connect(deviceMacAddress);
                 showToast("Connecting...");
@@ -58,30 +65,38 @@ public class BluetoothSelector extends BaseBluetoothController {
     }
 
     @Override
-    public void disconnect() {
-        try {
+    public void disconnect()
+    {
+        try
+        {
             btSocket.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             showToast("Failed to close Bluetooth socket");
         }
     }
 
-    public String getDeviceMacAddress() {
+    public String getDeviceMacAddress()
+    {
         return deviceMacAddress;
     }
 
-    public void listPairedDevices() {
+    public void listPairedDevices()
+    {
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
         for (BluetoothDevice device : pairedDevices)
             btArrayAdapter.add(device.getName() + "\n" + device.getAddress());
         showToast("Showing paired devices");
     }
 
-    public boolean isBtAdapterOn() {
+    public boolean isBtAdapterOn()
+    {
         return btAdapter.isEnabled();
     }
 
-    public final BroadcastReceiver getBroadcastReceiver() {
+    public final BroadcastReceiver getBroadcastReceiver()
+    {
         return broadcastReceiver;
     }
 }

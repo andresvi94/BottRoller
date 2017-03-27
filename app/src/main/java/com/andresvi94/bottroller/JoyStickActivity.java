@@ -13,86 +13,92 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTouch;
 
-public class JoyStickActivity extends AppCompatActivity {
-
-    @BindView(R.id.layout_joystick) RelativeLayout layout_joystick;
-    TextView textView1, textView2, textView3, textView4, textView5;
-    JoyStick joyStick;
-    //private int direction;
-    private BluetoothCommunicator bluetoothCommunicator;
+public class JoyStickActivity extends AppCompatActivity
+{
+    private static final int SLEEP_DURATION = 1000;
+    private JoyStick joyStick;
     private BluetoothCommunicator.ConnectedThread thread;
 
-    @OnTouch(R.id.layout_joystick)
-    public boolean onJoystickTouch(MotionEvent motionEvent) {
-        joyStick.drawStick(motionEvent);
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
-                motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-            textView1.setText("X : " + String.valueOf(joyStick.getX()));
-            textView2.setText("Y : " + String.valueOf(joyStick.getY()));
-            textView3.setText("Angle : " + String.valueOf(joyStick.getAngle()));
-            textView4.setText("Distance : " + String.valueOf(joyStick.getDistance()));
+    @BindView(R.id.layout_joystick) RelativeLayout layoutJoystick;
+    @BindView(R.id.textView1) TextView textView1;
+    @BindView(R.id.textView2) TextView textView2;
+    @BindView(R.id.textView3) TextView textView3;
+    @BindView(R.id.textView4) TextView textView4;
+    @BindView(R.id.textView5) TextView textView5;
 
-            int direction = joyStick.get8Direction();
-            thread.write(String.valueOf(direction));
-
-            if (direction == JoyStick.STICK_UP) {
-                textView5.setText(R.string.up);
-            } else if (direction == JoyStick.STICK_UP_RIGHT) {
-                textView5.setText(R.string.up_right);
-            } else if (direction == JoyStick.STICK_RIGHT) {
-                textView5.setText(R.string.right);
-            } else if (direction == JoyStick.STICK_DOWN_RIGHT) {
-                textView5.setText(R.string.down_right);
-            } else if (direction == JoyStick.STICK_DOWN) {
-                textView5.setText(R.string.down);
-            } else if (direction == JoyStick.STICK_DOWN_LEFT) {
-                textView5.setText(R.string.down_left);
-            } else if (direction == JoyStick.STICK_LEFT) {
-                textView5.setText(R.string.left);
-            } else if (direction == JoyStick.STICK_UP_LEFT) {
-                textView5.setText(R.string.up_left);
-            } else if (direction == JoyStick.STICK_NONE) {
-                textView5.setText(R.string.center);
-            }
-        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-            textView1.setText(R.string.x);
-            textView2.setText(R.string.y);
-            textView3.setText(R.string.angle);
-            textView4.setText(R.string.distance);
-            textView5.setText(R.string.direction);
-        }
-        return true;
-    }
-
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joy_stick);
         ButterKnife.bind(this);
 
-        textView1 = (TextView) findViewById(R.id.textView1);
-        textView2 = (TextView) findViewById(R.id.textView2);
-        textView3 = (TextView) findViewById(R.id.textView3);
-        textView4 = (TextView) findViewById(R.id.textView4);
-        textView5 = (TextView) findViewById(R.id.textView5);
+        configureJoyStick();
+        setUpBtConnection(getIntent().getStringExtra("MAC_ADDRESS"));
+    }
 
-        joyStick = new JoyStick(getApplicationContext(), layout_joystick);
+    private void configureJoyStick()
+    {
+        joyStick = new JoyStick(getApplicationContext(), layoutJoystick);
         joyStick.setStickSize(150, 150);
         joyStick.setLayoutSize(500, 500);
         joyStick.setLayoutAlpha(150);
         joyStick.setStickAlpha(100);
         joyStick.setOffset(90);
         joyStick.setMinimumDistance(50);
+    }
 
-        bluetoothCommunicator = new BluetoothCommunicator(this, getApplicationContext(), null);
+    private void setUpBtConnection(String macAddress)
+    {
+        BluetoothCommunicator bluetoothCommunicator = new BluetoothCommunicator(this, getApplicationContext(), null);
         bluetoothCommunicator.turnOn();
-        bluetoothCommunicator.connect(getIntent().getStringExtra("MAC_ADDRESS"));
-        SystemClock.sleep(1000);
+        bluetoothCommunicator.connect(macAddress);
+        SystemClock.sleep(SLEEP_DURATION);
         thread = bluetoothCommunicator.getConnectedThread();
     }
 
-    @Override
-    protected void onDestroy() {
-        // Toast.makeText(getBaseContext(),"destroy",Toast.LENGTH_SHORT).show();
-        super.onDestroy();
+    @OnTouch(R.id.layout_joystick)
+    public boolean onJoystickTouch(MotionEvent motionEvent)
+    {
+        joyStick.drawStick(motionEvent);
+
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN || motionEvent.getAction() == MotionEvent.ACTION_MOVE)
+        {
+            textView1.setText(getString(R.string.x_argument, String.valueOf(joyStick.getX())));
+            textView2.setText(getString(R.string.y_argument, String.valueOf(joyStick.getY())));
+            textView3.setText(getString(R.string.angle_argument, String.valueOf(joyStick.getAngle())));
+            textView4.setText(getString(R.string.distance_argument, String.valueOf(joyStick.getDistance())));
+
+            int direction = joyStick.get8Direction();
+            thread.write(String.valueOf(direction));
+
+            if (direction == JoyStick.STICK_UP)
+                textView5.setText(R.string.up);
+            else if (direction == JoyStick.STICK_UP_RIGHT)
+                textView5.setText(R.string.up_right);
+            else if (direction == JoyStick.STICK_RIGHT)
+                textView5.setText(R.string.right);
+            else if (direction == JoyStick.STICK_DOWN_RIGHT)
+                textView5.setText(R.string.down_right);
+            else if (direction == JoyStick.STICK_DOWN)
+                textView5.setText(R.string.down);
+            else if (direction == JoyStick.STICK_DOWN_LEFT)
+                textView5.setText(R.string.down_left);
+            else if (direction == JoyStick.STICK_LEFT)
+                textView5.setText(R.string.left);
+            else if (direction == JoyStick.STICK_UP_LEFT)
+                textView5.setText(R.string.up_left);
+            else if (direction == JoyStick.STICK_NONE)
+                textView5.setText(R.string.center);
+        }
+        else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+        {
+            textView1.setText(getString(R.string.x));
+            textView2.setText(getString(R.string.y));
+            textView3.setText(getString(R.string.angle));
+            textView4.setText(getString(R.string.distance));
+            textView5.setText(getString(R.string.direction));
+        }
+
+        return true;
     }
 }

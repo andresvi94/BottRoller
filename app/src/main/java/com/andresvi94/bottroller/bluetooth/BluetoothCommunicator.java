@@ -10,47 +10,56 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class BluetoothCommunicator extends BaseBluetoothController {
-
+public class BluetoothCommunicator extends BaseBluetoothController
+{
     private ConnectedThread connectedThread;
 
-    public BluetoothCommunicator(Activity activity, Context context, Handler handler) {
+    public BluetoothCommunicator(Activity activity, Context context, Handler handler)
+    {
         super(activity, context, handler);
     }
 
     @Override
-    void onBtConnected() {
+    void onBtConnected()
+    {
         super.onBtConnected();
         connectedThread = new ConnectedThread(btSocket);
         connectedThread.start();
     }
 
-    public ConnectedThread getConnectedThread(){
+    public ConnectedThread getConnectedThread()
+    {
         return connectedThread;
     }
 
     @Override
-    public void disconnect() {
+    public void disconnect()
+    {
         if (btAdapter.isEnabled() && connectedThread != null)
             connectedThread.cancel();
     }
 
-    public class ConnectedThread extends Thread {
+    public class ConnectedThread extends Thread
+    {
         private final BluetoothSocket bluetoothSocket;
         private final InputStream inputStream;
         private final OutputStream outputStream;
 
-        ConnectedThread(BluetoothSocket socket) {
+        ConnectedThread(BluetoothSocket socket)
+        {
             this.bluetoothSocket = socket;
             InputStream tempInputStream = null;
             OutputStream tempOutputStream = null;
 
             // Get the input and output streams, using temp objects because
             // member streams are final
-            try {
+            try
+            {
                 tempInputStream = socket.getInputStream();
                 tempOutputStream = socket.getOutputStream();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
             }
 
@@ -58,44 +67,57 @@ public class BluetoothCommunicator extends BaseBluetoothController {
             outputStream = tempOutputStream;
         }
 
-        public void run() {
+        public void run()
+        {
             byte[] buffer = new byte[1024];  // buffer store for the stream
             int bytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs
-            while (true) {
-                try {
+            while (true)
+            {
+                try
+                {
                     // Read from the InputStream
                     bytes = inputStream.read(buffer);
-                    if (bytes != 0) {
+                    if (bytes != 0)
+                    {
                         SystemClock.sleep(100);
                         inputStream.read(buffer);
                     }
                     // Send the obtained bytes to the UI activity
-                    handler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
-                } catch (IOException e) {
+                    handler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                }
+                catch (IOException e)
+                {
                     break;
                 }
             }
         }
 
         // Call this from the activity to send data to the remote device
-        public void write(String input) {
-            byte[] bytes = input.getBytes();    //converts entered String into bytes
-            try {
+        public void write(String input)
+        {
+            byte[] bytes = input.getBytes();
+            try
+            {
                 outputStream.write(bytes);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
                 showToast("Failed writing to Bluetooth device");
             }
         }
 
         // Call this from the activity to close the connection
-        public void cancel() {
-            try {
+        void cancel()
+        {
+            try
+            {
                 bluetoothSocket.close();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
                 showToast("Failed to close the Bluetooth connection");
             }

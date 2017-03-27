@@ -5,6 +5,7 @@
         smartphone with ease!\n\nFirst press the start button to select your device.
         Then use the joystick to move your robot!\n
     </string>
+    <string name="command">Command</string>
     <string name="dialog_title">Pick Device</string>
     <string name="discover_new_devices">Discover New Devices</string>
     <string name="joystick">JoyStick</string>
@@ -12,6 +13,7 @@
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="welcome_title">Welcome!</string>
+
     <string name="up">Direction : Up</string>
     <string name="up_right">Direction : Up Right</string>
     <string name="right">Direction : Right</string>
@@ -21,9 +23,16 @@
     <string name="left">Direction : Left</string>
     <string name="up_left">Direction : Up Left</string>
     <string name="center">Direction : Center</string>
+
     <string name="angle">Angle :</string>
-    <string name="distance">Distance :</string>
     <string name="direction">Direction :</string>
-    <string name="x">X : %d</string>
+    <string name="distance">Distance :</string>
+    <string name="x">X :</string>
     <string name="y">Y :</string>
+
+    <string name="angle_argument">Angle : %1$s</string>
+    <string name="direction_argument">Direction : %1$s</string>
+    <string name="distance_argument">Distance : %1$s</string>
+    <string name="x_argument">X : %1$s</string>
+    <string name="y_argument">Y : %1$s</string>
 </resources>
