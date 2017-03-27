@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothSelector bluetoothSelector;
 
     // GUI Components
-    @BindView(R.id.cmd) EditText textCmd;
     @BindView(R.id.button_start) Button buttonStart;
 
     @Override
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startJoystickActivity() {
-        SystemClock.sleep(10000);
+        SystemClock.sleep(500);
         bluetoothSelector.disconnect();
         Intent getJoyStickIntent = new Intent(MainActivity.this, JoyStickActivity.class);
         getJoyStickIntent.putExtra("MAC_ADDRESS", bluetoothSelector.getDeviceMacAddress());
