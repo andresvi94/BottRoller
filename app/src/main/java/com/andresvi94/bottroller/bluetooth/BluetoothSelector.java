@@ -9,14 +9,19 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.Set;
 
 public class BluetoothSelector extends BaseBluetoothController {
 
+    private static final int MAC_ADDRESS_LENGTH = 17;
+
     public ArrayAdapter<String> btArrayAdapter;
     public AdapterView.OnItemClickListener deviceClickListener;
     private final BroadcastReceiver broadcastReceiver;
+    private String deviceMacAddress = "";
 
     public BluetoothSelector(Activity activity, final Context context, Handler handler) {
         super(activity, context, handler);
@@ -44,18 +49,25 @@ public class BluetoothSelector extends BaseBluetoothController {
         deviceClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                connect(view);
+                String deviceInfo = ((TextView) view).getText().toString();
+                deviceMacAddress = deviceInfo.substring(deviceInfo.length() - MAC_ADDRESS_LENGTH);
+                connect(deviceMacAddress);
                 showToast("Connecting...");
             }
         };
     }
 
     @Override
-    public void turnOff() {
-        if (btAdapter.isEnabled()) {
-            btAdapter.disable();
-            showToast("Bluetooth turned off");
+    public void disconnect() {
+        try {
+            btSocket.close();
+        } catch (IOException e) {
+            showToast("Failed to close Bluetooth socket");
         }
+    }
+
+    public String getDeviceMacAddress() {
+        return deviceMacAddress;
     }
 
     public void listPairedDevices() {

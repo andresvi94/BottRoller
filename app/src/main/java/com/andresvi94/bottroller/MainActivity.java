@@ -49,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
                     if (msg.arg1 == BT_CONNECTION_SUCCESSFUL) {
                         showToast("Connected");
                         // TODO: Un-comment when device is available
-//                        startJoystickActivity();
+                        startJoystickActivity();
                     }
-//                    else
-//                        showToast("Failed to connect");
-                    startJoystickActivity();
+                    else
+                        showToast("Failed to connect");
+//                    startJoystickActivity();
                 }
             }
         };
@@ -63,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startJoystickActivity() {
+        bluetoothSelector.disconnect();
         Intent getJoyStickIntent = new Intent(MainActivity.this, JoyStickActivity.class);
+        getJoyStickIntent.putExtra("MAC_ADDRESS", bluetoothSelector.getDeviceMacAddress());
         startActivity(getJoyStickIntent);
     }
 

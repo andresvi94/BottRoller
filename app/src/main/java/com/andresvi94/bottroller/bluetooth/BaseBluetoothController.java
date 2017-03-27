@@ -7,8 +7,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -16,7 +14,6 @@ import java.util.UUID;
 
 abstract class BaseBluetoothController {
     private static final UUID BT_MODULE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
-    private static final int MAC_ADDRESS_LENGTH = 17;
     private static final int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
     private static final int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
     static final int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
@@ -36,15 +33,10 @@ abstract class BaseBluetoothController {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
-    void connect(View view) {
-        // Get the device MAC address, which is the last 17 chars in the View
-        String info = ((TextView) view).getText().toString();
-        final String address = info.substring(info.length() - MAC_ADDRESS_LENGTH);
-        final String name = info.substring(0, info.length() - MAC_ADDRESS_LENGTH);
-
+    public void connect(final String deviceMacAddress) {
         Thread backgroundThread = new Thread() {
             public void run() {
-                BluetoothDevice device = btAdapter.getRemoteDevice(address);
+                BluetoothDevice device = btAdapter.getRemoteDevice(deviceMacAddress);
 
                 try {
                     btSocket = device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
@@ -58,7 +50,8 @@ abstract class BaseBluetoothController {
                     try {
                         btSocket.close();
                         //connectedThread.cancel();
-                        handler.obtainMessage(CONNECTING_STATUS, -1, -1).sendToTarget();
+                        if (handler != null)
+                            handler.obtainMessage(CONNECTING_STATUS, -1, -1).sendToTarget();
                     } catch (IOException e2) {
                         // TODO: Insert code to deal with this
                         showToast("Socket creation failed");
@@ -66,7 +59,7 @@ abstract class BaseBluetoothController {
                 }
 
                 if (btSocket.isConnected()) {
-                    onBtConnected(name);
+                    onBtConnected();
                 }
             }
         };
@@ -74,8 +67,9 @@ abstract class BaseBluetoothController {
         backgroundThread.start();
     }
 
-    void onBtConnected(String name) {
-        handler.obtainMessage(CONNECTING_STATUS, 1, -1, name).sendToTarget();
+    void onBtConnected() {
+        if (handler != null)
+            handler.obtainMessage(CONNECTING_STATUS, 1, -1).sendToTarget();
     }
 
     public void turnOn() {
@@ -85,7 +79,7 @@ abstract class BaseBluetoothController {
         }
     }
 
-    public abstract void turnOff();
+    public abstract void disconnect();
 
     void showToast(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();

@@ -19,20 +19,16 @@ public class BluetoothCommunicator extends BaseBluetoothController {
     }
 
     @Override
-    void onBtConnected(String name) {
-        super.onBtConnected(name);
+    void onBtConnected() {
+        super.onBtConnected();
         connectedThread = new ConnectedThread(btSocket);
         connectedThread.start();
     }
 
     @Override
-    public void turnOff() {
-        if (btAdapter.isEnabled()) {
-            if (connectedThread != null)
-                connectedThread.cancel();
-            btAdapter.disable();
-            showToast("Bluetooth turned off");
-        }
+    public void disconnect() {
+        if (btAdapter.isEnabled() && connectedThread != null)
+            connectedThread.cancel();
     }
 
     private class ConnectedThread extends Thread {
