@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">BottRoller</string>
     <string name="app_description">
-        BottRoller will let you control you balancing robot through your
-        smartphone with ease!\n\nFirst press the start button to select your device.
-        Then use the joystick to move your robot!\n
+        BottRoller will let you control your balancing robot through your
+        smartphone with ease!\n\nFirst, press the start button to select your device;
+        then, use the joystick to move your robot!\n
     </string>
     <string name="dialog_title">Pick Device</string>
     <string name="discover_new_devices">Discover New Devices</string>
