@@ -25,6 +25,10 @@ public class BluetoothCommunicator extends BaseBluetoothController {
         connectedThread.start();
     }
 
+    public ConnectedThread getConnectedThread(){
+        return connectedThread;
+    }
+
     @Override
     public void disconnect() {
         if (btAdapter.isEnabled() && connectedThread != null)
