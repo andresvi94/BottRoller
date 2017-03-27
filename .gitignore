@@ -2,7 +2,6 @@
 
 # Gradle files
 .gradle
-gradle.properties
 build
 
 # Local configuration files (sdk path, etc.)
@@ -11,6 +10,3 @@ build
 # IntelliJ
 *.iml
 .idea
-
-test
-androidTest
