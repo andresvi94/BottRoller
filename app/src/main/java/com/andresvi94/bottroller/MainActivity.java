@@ -1,5 +1,6 @@
 package com.andresvi94.bottroller;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showBtSelectionDialog()
     {
+        @SuppressLint("InflateParams")
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_device, null);
         Button buttonShowPaired = ButterKnife.findById(dialogView, R.id.button_show_paired);
         Button buttonDiscover = ButterKnife.findById(dialogView, R.id.button_discover);

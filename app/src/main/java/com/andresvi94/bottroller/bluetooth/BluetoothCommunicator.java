@@ -3,7 +3,6 @@ package com.andresvi94.bottroller.bluetooth;
 import android.app.Activity;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.os.Handler;
 import android.os.SystemClock;
 
 import java.io.IOException;
@@ -14,9 +13,9 @@ public class BluetoothCommunicator extends BaseBluetoothController
 {
     private ConnectedThread connectedThread;
 
-    public BluetoothCommunicator(Activity activity, Context context, Handler handler)
+    public BluetoothCommunicator(Activity activity, Context context)
     {
-        super(activity, context, handler);
+        super(activity, context, null);
     }
 
     @Override
@@ -82,6 +81,7 @@ public class BluetoothCommunicator extends BaseBluetoothController
                     if (bytes != 0)
                     {
                         SystemClock.sleep(100);
+                        //noinspection ResultOfMethodCallIgnored
                         inputStream.read(buffer);
                     }
                     // Send the obtained bytes to the UI activity

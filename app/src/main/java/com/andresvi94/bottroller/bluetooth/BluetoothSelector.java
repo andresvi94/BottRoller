@@ -19,8 +19,8 @@ public class BluetoothSelector extends BaseBluetoothController
     private static final int MAC_ADDRESS_LENGTH = 17;
 
     private final BroadcastReceiver broadcastReceiver;
-    public ArrayAdapter<String> btArrayAdapter;
-    public AdapterView.OnItemClickListener deviceClickListener;
+    public final ArrayAdapter<String> btArrayAdapter;
+    public final AdapterView.OnItemClickListener deviceClickListener;
     private String deviceMacAddress = "";
 
     public BluetoothSelector(Activity activity, final Context context, Handler handler)

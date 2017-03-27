@@ -16,6 +16,7 @@ import butterknife.OnTouch;
 public class JoyStickActivity extends AppCompatActivity
 {
     private static final int SLEEP_DURATION = 800;
+
     private JoyStick joyStick;
     private boolean tap = false;
     private BluetoothCommunicator.ConnectedThread thread;
@@ -50,7 +51,7 @@ public class JoyStickActivity extends AppCompatActivity
 
     private void setUpBtConnection(String macAddress)
     {
-        BluetoothCommunicator bluetoothCommunicator = new BluetoothCommunicator(this, getApplicationContext(), null);
+        BluetoothCommunicator bluetoothCommunicator = new BluetoothCommunicator(this, getApplicationContext());
         bluetoothCommunicator.turnOn();
         bluetoothCommunicator.connect(macAddress);
         SystemClock.sleep(SLEEP_DURATION);

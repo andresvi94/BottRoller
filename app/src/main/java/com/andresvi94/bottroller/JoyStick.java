@@ -26,14 +26,14 @@ class JoyStick
     private int offset = 0;
 
     private ViewGroup viewGroup;
-    private ViewGroup.LayoutParams params;
+    private final ViewGroup.LayoutParams params;
     private int stickWidth, stickHeight;
 
     private int positionX = 0, positionY = 0, minDistance = 0;
     private float distance = 0, angle = 0;
 
-    private DrawCanvas drawCanvas;
-    private Paint paint;
+    private final DrawCanvas drawCanvas;
+    private final Paint paint;
     private Bitmap stick;
 
     private boolean isInBounds = false;

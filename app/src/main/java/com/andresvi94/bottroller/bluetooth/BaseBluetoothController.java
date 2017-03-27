@@ -19,12 +19,12 @@ abstract class BaseBluetoothController
     private static final int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
     static final int MESSAGE_READ = 2;              // used in bluetooth handler to identify message update
 
-    private Activity activity;
-    private Context context;
+    private final Activity activity;
+    private final Context context;
 
-    BluetoothAdapter btAdapter;
+    final BluetoothAdapter btAdapter;
     BluetoothSocket btSocket = null; // bi-directional client-to-client data path
-    Handler handler;
+    final Handler handler;
 
     BaseBluetoothController(Activity activity, Context context, Handler handler)
     {
