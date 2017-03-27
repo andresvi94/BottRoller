@@ -36,6 +36,7 @@ abstract class BaseBluetoothController {
     public void connect(final String deviceMacAddress) {
         Thread backgroundThread = new Thread() {
             public void run() {
+                btAdapter.cancelDiscovery();    //Ensure Adapter Discovery is Off (Documentation recommended)
                 BluetoothDevice device = btAdapter.getRemoteDevice(deviceMacAddress);
 
                 try {
