@@ -18,15 +18,16 @@ public class JoyStickActivity extends AppCompatActivity {
     @BindView(R.id.layout_joystick) RelativeLayout layout_joystick;
     TextView textView1, textView2, textView3, textView4, textView5;
     JoyStick joyStick;
-    //private int direction;
+    private boolean tap = false;
     private BluetoothCommunicator bluetoothCommunicator;
     private BluetoothCommunicator.ConnectedThread thread;
 
     @OnTouch(R.id.layout_joystick)
     public boolean onJoystickTouch(MotionEvent motionEvent) {
         joyStick.drawStick(motionEvent);
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
-                motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+        if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
+                motionEvent.getAction() == MotionEvent.ACTION_MOVE) && !tap) {
+            tap = true;
             textView1.setText("X : " + String.valueOf(joyStick.getX()));
             textView2.setText("Y : " + String.valueOf(joyStick.getY()));
             textView3.setText("Angle : " + String.valueOf(joyStick.getAngle()));
@@ -54,7 +55,8 @@ public class JoyStickActivity extends AppCompatActivity {
             } else if (direction == JoyStick.STICK_NONE) {
                 textView5.setText(R.string.center);
             }
-        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP && tap) {
+            tap = false;
             textView1.setText(R.string.x);
             textView2.setText(R.string.y);
             textView3.setText(R.string.angle);
@@ -86,7 +88,7 @@ public class JoyStickActivity extends AppCompatActivity {
         bluetoothCommunicator = new BluetoothCommunicator(this, getApplicationContext(), null);
         bluetoothCommunicator.turnOn();
         bluetoothCommunicator.connect(getIntent().getStringExtra("MAC_ADDRESS"));
-        SystemClock.sleep(1000);
+        SystemClock.sleep(800);
         thread = bluetoothCommunicator.getConnectedThread();
     }
 
