@@ -15,8 +15,9 @@ import butterknife.OnTouch;
 
 public class JoyStickActivity extends AppCompatActivity
 {
-    private static final int SLEEP_DURATION = 1000;
+    private static final int SLEEP_DURATION = 800;
     private JoyStick joyStick;
+    private boolean tap = false;
     private BluetoothCommunicator.ConnectedThread thread;
 
     @BindView(R.id.layout_joystick) RelativeLayout layoutJoystick;
@@ -61,8 +62,10 @@ public class JoyStickActivity extends AppCompatActivity
     {
         joyStick.drawStick(motionEvent);
 
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN || motionEvent.getAction() == MotionEvent.ACTION_MOVE)
+        if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
+                motionEvent.getAction() == MotionEvent.ACTION_MOVE && !tap))
         {
+            tap = true;
             textView1.setText(getString(R.string.x_argument, String.valueOf(joyStick.getX())));
             textView2.setText(getString(R.string.y_argument, String.valueOf(joyStick.getY())));
             textView3.setText(getString(R.string.angle_argument, String.valueOf(joyStick.getAngle())));
@@ -90,13 +93,14 @@ public class JoyStickActivity extends AppCompatActivity
             else if (direction == JoyStick.STICK_NONE)
                 textView5.setText(R.string.center);
         }
-        else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+        else if (motionEvent.getAction() == MotionEvent.ACTION_UP && tap)
         {
-            textView1.setText(getString(R.string.x));
-            textView2.setText(getString(R.string.y));
-            textView3.setText(getString(R.string.angle));
-            textView4.setText(getString(R.string.distance));
-            textView5.setText(getString(R.string.direction));
+            tap = false;
+            textView1.setText(R.string.x);
+            textView2.setText(R.string.y);
+            textView3.setText(R.string.angle);
+            textView4.setText(R.string.distance);
+            textView5.setText(R.string.direction);
         }
 
         return true;

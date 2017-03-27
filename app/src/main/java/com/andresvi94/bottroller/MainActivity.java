@@ -25,14 +25,14 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity
 {
-    private final static int BT_CONNECTION_SUCCESSFUL = 1;
-    private final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
-    private final static int MESSAGE_READ = 2;      // used in bluetooth handler to identify message update
-    private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
+    private static final int SLEEP_DURATION = 500;
+    private static final int BT_CONNECTION_SUCCESSFUL = 1;
+    private static final int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
+    private static final int MESSAGE_READ = 2;      // used in bluetooth handler to identify message update
+    private static final int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
 
     private BluetoothSelector bluetoothSelector;
 
-    @BindView(R.id.cmd) EditText textCmd;
     @BindView(R.id.button_start) Button buttonStart;
 
     @Override
@@ -66,8 +66,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startJoystickActivity()
     {
-        SystemClock.sleep(2000);
-
+        SystemClock.sleep(SLEEP_DURATION);
         bluetoothSelector.disconnect();
         Intent getJoyStickIntent = new Intent(MainActivity.this, JoyStickActivity.class);
         getJoyStickIntent.putExtra("MAC_ADDRESS", bluetoothSelector.getDeviceMacAddress());
