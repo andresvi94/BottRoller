@@ -110,7 +110,7 @@ public class BluetoothCommunicator extends BaseBluetoothController
         }
 
         // Call this from the activity to close the connection
-        void cancel()
+        public void cancel()
         {
             try
             {
