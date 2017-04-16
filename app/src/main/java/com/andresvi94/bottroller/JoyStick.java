@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 class JoyStick {
     static final int STICK_NONE = 0;
     static final int STICK_UP = 1;
-    static final int STICK_UP_RIGHT = 0;
-    static final int STICK_RIGHT = 1;
-    static final int STICK_DOWN_RIGHT = 0;
-    static final int STICK_DOWN = 1;
-    static final int STICK_DOWN_LEFT = 0;
-    static final int STICK_LEFT = 1;
-    static final int STICK_UP_LEFT = 0;
+    static final int STICK_UP_RIGHT = 2;
+    static final int STICK_RIGHT = 3;
+    static final int STICK_DOWN_RIGHT = 4;
+    static final int STICK_DOWN = 5;
+    static final int STICK_DOWN_LEFT = 6;
+    static final int STICK_LEFT = 7;
+    static final int STICK_UP_LEFT = 8;
 
     private int stickAlpha = 200;
     private int stickLayout = 200;
