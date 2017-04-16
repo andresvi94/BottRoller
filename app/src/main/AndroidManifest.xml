@@ -32,7 +32,9 @@
         <activity
             android:name=".JoyStickActivity"
             android:label="@string/joystick"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
