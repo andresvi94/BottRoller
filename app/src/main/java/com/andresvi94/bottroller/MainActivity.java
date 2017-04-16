@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private static final int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
 
     private BluetoothSelector bluetoothSelector;
+    private AlertDialog alertDialog;
 
     @BindView(R.id.button_start) Button buttonStart;
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startJoystickActivity()
     {
+        alertDialog.dismiss();
         SystemClock.sleep(SLEEP_DURATION);
         bluetoothSelector.disconnect();
         Intent getJoyStickIntent = new Intent(MainActivity.this, JoyStickActivity.class);
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity
 
         listViewBtDevices.setOnItemClickListener(bluetoothSelector.deviceClickListener);
 
-        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).setView(dialogView).create();
+        alertDialog = new AlertDialog.Builder(MainActivity.this).setView(dialogView).create();
         alertDialog.show();
     }
 
