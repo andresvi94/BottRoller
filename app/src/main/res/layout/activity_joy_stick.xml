@@ -68,19 +68,8 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp"
-        android:background="@drawable/image_button_bg" />
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp">
-        <Button
-            android:id="@+id/stopBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stop"/>
-    </LinearLayout>-->
+        android:background="@drawable/image_button_bg"
+        android:scaleX="1.6"
+        android:scaleY="1.6"/>
+
 </RelativeLayout>
