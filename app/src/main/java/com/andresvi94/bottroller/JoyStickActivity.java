@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,21 +12,22 @@ import com.andresvi94.bottroller.bluetooth.BluetoothCommunicator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnTouch;
 
 public class JoyStickActivity extends AppCompatActivity
 {
-    private static final int SLEEP_DURATION = 800;
+    private static final int SLEEP_DURATION = 850;
+    private static final String INCREASE = "I";
+    private static final String DECREASE = "D";
 
     private JoyStick joyStick;
+    private boolean fast = false;
     private boolean tap = false;
     private BluetoothCommunicator.ConnectedThread thread;
 
     @BindView(R.id.layout_joystick) RelativeLayout layoutJoystick;
-    @BindView(R.id.textView1) TextView textView1;
-    @BindView(R.id.textView2) TextView textView2;
-    @BindView(R.id.textView3) TextView textView3;
-    @BindView(R.id.textView4) TextView textView4;
+    @BindView(R.id.button_fast) Button buttonFast;
     @BindView(R.id.textView5) TextView textView5;
 
     public void onCreate(Bundle savedInstanceState)
@@ -56,21 +58,34 @@ public class JoyStickActivity extends AppCompatActivity
         bluetoothCommunicator.connect(macAddress);
         SystemClock.sleep(SLEEP_DURATION);
         thread = bluetoothCommunicator.getConnectedThread();
+        thread.write(String.valueOf(JoyStick.STICK_NONE));
     }
+
+    @OnClick(R.id.button_fast)
+    public void onFastButtonClick()
+    {
+        if(!fast) {
+            buttonFast.setText(R.string.fast);
+            thread.write(INCREASE);
+            fast = true;
+        }
+        else{
+            buttonFast.setText(R.string.normal);
+            thread.write(DECREASE);
+            fast = false;
+        }
+    }
+
 
     @OnTouch(R.id.layout_joystick)
     public boolean onJoystickTouch(MotionEvent motionEvent)
     {
-        joyStick.drawStick(motionEvent);
 
         if ((motionEvent.getAction() == MotionEvent.ACTION_DOWN ||
                 motionEvent.getAction() == MotionEvent.ACTION_MOVE && !tap))
         {
+            joyStick.drawStick(motionEvent);
             tap = true;
-            textView1.setText(getString(R.string.x_argument, String.valueOf(joyStick.getX())));
-            textView2.setText(getString(R.string.y_argument, String.valueOf(joyStick.getY())));
-            textView3.setText(getString(R.string.angle_argument, String.valueOf(joyStick.getAngle())));
-            textView4.setText(getString(R.string.distance_argument, String.valueOf(joyStick.getDistance())));
 
             int direction = joyStick.get8Direction();
             thread.write(String.valueOf(direction));
@@ -92,18 +107,22 @@ public class JoyStickActivity extends AppCompatActivity
             else if (direction == JoyStick.STICK_UP_LEFT)
                 textView5.setText(R.string.up_left);
             else if (direction == JoyStick.STICK_NONE)
+            else if (direction == JoyStick.STICK_NONE)
                 textView5.setText(R.string.center);
         }
         else if (motionEvent.getAction() == MotionEvent.ACTION_UP && tap)
         {
             tap = false;
-            textView1.setText(R.string.x);
-            textView2.setText(R.string.y);
-            textView3.setText(R.string.angle);
-            textView4.setText(R.string.distance);
-            textView5.setText(R.string.direction);
+            //textView5.setText(R.string.direction);
         }
 
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        thread.cancel();
+        finish();
+        super.onDestroy();
     }
 }
