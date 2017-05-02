@@ -7,7 +7,9 @@
     </string>
     <string name="dialog_title">Pick Device</string>
     <string name="discover_new_devices">Discover New Devices</string>
+    <string name="fast">Fast</string>
     <string name="joystick">JoyStick</string>
+    <string name="normal">Normal</string>
     <string name="show_paired_devices">Show Paired Devices</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
