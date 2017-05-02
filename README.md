@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Android app to control wirelessly an HC-05 bluetooth module on a Tiva microcontroller. Used to move two-wheel balancing robot in all cardinal direction
+Android app to control wirelessly an HC-05 bluetooth module on a Tiva microcontroller. Used to move two-wheel balancing robot in all cardinal directions
 
 ## License
 
