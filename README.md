@@ -8,7 +8,7 @@ Android app to control wirelessly an HC-05 bluetooth module on a Tiva microcontr
 
 The MIT License
 
-Copyright (c) 2016-2017 Andres Vinueza andresvi94@gmai.com
+Copyright (c) 2016-2017 Andres Vinueza andresvi94@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
